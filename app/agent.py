@@ -24,12 +24,34 @@ class AgentResult:
 
 
 class LabAgent:
+    _CACHE: dict[str, AgentResult] = {}
+
     def __init__(self, model: str = "claude-sonnet-4-5") -> None:
         self.model = model
         self.llm = FakeLLM(model=model)
 
     @observe(as_type="generation", capture_input=False, capture_output=False)
     def run(self, user_id: str, feature: str, session_id: str, message: str) -> AgentResult:
+        cache_key = message.strip().lower()
+        if cache_key in self._CACHE:
+            cached_result = self._CACHE[cache_key]
+            # Log zero latency and cost for cached result
+            metrics.record_request(
+                latency_ms=0,
+                cost_usd=0.0,
+                tokens_in=0,
+                tokens_out=0,
+                quality_score=cached_result.quality_score,
+            )
+            return AgentResult(
+                answer=cached_result.answer,
+                latency_ms=0,
+                tokens_in=0,
+                tokens_out=0,
+                cost_usd=0.0,
+                quality_score=cached_result.quality_score,
+            )
+
         started = time.perf_counter()
         docs = retrieve(message)
         langfuse_client = get_langfuse_client()
@@ -84,7 +106,7 @@ class LabAgent:
             quality_score=quality_score,
         )
 
-        return AgentResult(
+        result = AgentResult(
             answer=response.text,
             latency_ms=latency_ms,
             tokens_in=response.usage.input_tokens,
@@ -92,6 +114,8 @@ class LabAgent:
             cost_usd=cost_usd,
             quality_score=quality_score,
         )
+        self._CACHE[cache_key] = result
+        return result
 
     def _estimate_cost(self, tokens_in: int, tokens_out: int) -> float:
         input_cost = (tokens_in / 1_000_000) * 3

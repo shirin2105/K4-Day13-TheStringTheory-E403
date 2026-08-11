@@ -66,3 +66,9 @@ Với mỗi thành viên, ghi rõ nhiệm vụ và link commit/PR tương ứng.
 | Trần Đăng Bách | CP1: Logging, Correlation ID & PII | `15cec6e` | Hiểu cách luân chuyển context qua request và che PII an toàn trước khi log. |
 | Nguyễn Trọng Đức | CP2: Metrics, Traces, Dashboard & Alerts | `e6a9ba6` | Biết cách kết hợp Grafana Dashboard, thiết lập SLOs và tracing prompt trên Langfuse. |
 | Nguyễn Phi Hoàng | CP3: Challenge Investigation | `0c0e31f` | Nắm rõ quy trình dùng Metrics để phát hiện, Traces để khoanh vùng và Logs để tìm Root Cause. |
+
+## 8. Bonus (+10 điểm)
+- **Cost Optimization**: Đã thực hiện thêm Caching bằng biến `_CACHE` trong `app/agent.py`. Các truy vấn lặp lại sẽ được lưu kết quả và trả về ngay với `latency = 0` và `cost_usd = 0`, giúp giảm tải LLM trong trường hợp incident `cost_spike`.
+- **Audit Log**: Đã tách luồng log cho các sự kiện quản trị (bật/tắt incident) ra file riêng biệt. Processor mới `AuditFileProcessor` được cấu hình trong `app/logging_config.py` để trích xuất những event có `service="control"` sang `data/audit.jsonl`.
+- **Custom Automation**: Viết thêm tool tự động kiểm tra anomalies tại `scripts/detect_anomalies.py`. Tool này có khả năng rà soát file `logs.jsonl` và thông báo ngay lập tức nếu phát hiện PII Leak (Credit card, Email) hoặc Request Latency vượt ngưỡng SLO cho phép.
+

@@ -1,0 +1,35 @@
+{
+  "project_id": "cmsofgucx009rad0hi4ry1cnn",
+  "total_traces_verified_via_api": 26,
+  "waterfall": {
+    "trace_id": "9c6add16b9060e239a00b4717e77a79b",
+    "prompt_label": "baseline",
+    "prompt_version": 1,
+    "correlation_id": "req-b2498956",
+    "evidence": "submission/evidence/cp2-trace-waterfall.png"
+  },
+  "baseline": {
+    "trace_id": "406eee5d6eb823aefefc7b2b946f115a",
+    "prompt_label": "baseline",
+    "prompt_version": 1,
+    "correlation_id": "req-588d21c1"
+  },
+  "candidate": {
+    "trace_id": "f689ee2cf1644796a00b6cb5af9d9556",
+    "prompt_label": "candidate",
+    "prompt_version": 2,
+    "correlation_id": "req-78683f4c"
+  },
+  "production_before_rollback": {
+    "trace_id": "420fa18518164144a510beaaccfc3cee",
+    "prompt_label": "production",
+    "prompt_version": 2,
+    "correlation_id": "req-aaf0e7d1"
+  },
+  "production_after_rollback": {
+    "trace_id": "a2f29398f7c54ac493becf480975198b",
+    "prompt_label": "production",
+    "prompt_version": 1,
+    "correlation_id": "req-bd8315f2"
+  }
+}

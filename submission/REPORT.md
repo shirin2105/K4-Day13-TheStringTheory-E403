@@ -9,17 +9,25 @@
 
 ## 2. Kết quả kỹ thuật
 
-- Điểm `validate_logs.py`:
+- Điểm `validate_logs.py`: 100/100 (CP1; baseline: 30/100)
 - Tổng số traces:
-- Số PII leak còn lại:
+- Số PII leak còn lại: 0 theo `scripts/validate_logs.py`
 - Link/đường dẫn dashboard:
 
 ## 3. Logging và tracing
 
-- Evidence correlation ID:
-- Evidence PII redaction:
+- Evidence correlation ID: `submission/evidence/cp1-redacted-log-excerpt.jsonl`
+- Evidence PII redaction: `submission/evidence/cp1-redacted-log-excerpt.jsonl`
 - Evidence trace waterfall:
 - Giải thích một span đáng chú ý:
+
+Khác biệt lớn nhất so với baseline CP0 là log CP1 đã có correlation ID xuyên suốt,
+metadata phục vụ lọc (`user_id_hash`, `session_id`, `feature`, `model`, `env`) và PII
+được che trước khi serialize xuống JSONL. `clear_contextvars()` bắt buộc ở đầu middleware
+để context của request trước không bị tái sử dụng, tránh gán nhầm correlation/user/session và
+gây rò rỉ dữ liệu giữa các request.
+
+- Evidence validator CP1: `submission/evidence/cp1-validator-100.png`
 
 ## 4. Prompt versioning
 

@@ -4,8 +4,11 @@
 
 - Tên nhóm:
 - Repository URL:
-- Commit SHA cuối:
+- Commit SHA cuối: 0c0e31f
 - Thành viên và vai trò:
+  - Trần Đăng Bách: Triển khai Checkpoint 1 (Logging, Correlation ID & PII).
+  - Nguyễn Trọng Đức: Triển khai Checkpoint 2 (Metrics, Traces, Dashboard & Alerts).
+  - Nguyễn Phi Hoàng: Triển khai Checkpoint 3 (Challenge: Điều tra Incident).
 
 ## 2. Kết quả kỹ thuật
 
@@ -60,4 +63,6 @@ Với mỗi thành viên, ghi rõ nhiệm vụ và link commit/PR tương ứng.
 
 | Thành viên | Phần việc | Commit/PR | Điều đã học |
 |---|---|---|---|
-| | | | |
+| Trần Đăng Bách | CP1: Logging, Correlation ID & PII | `15cec6e` | Hiểu cách luân chuyển context qua request và che PII an toàn trước khi log. |
+| Nguyễn Trọng Đức | CP2: Metrics, Traces, Dashboard & Alerts | `e6a9ba6` | Biết cách kết hợp Grafana Dashboard, thiết lập SLOs và tracing prompt trên Langfuse. |
+| Nguyễn Phi Hoàng | CP3: Challenge Investigation | `0c0e31f` | Nắm rõ quy trình dùng Metrics để phát hiện, Traces để khoanh vùng và Logs để tìm Root Cause. |

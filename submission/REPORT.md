@@ -46,13 +46,13 @@ gây rò rỉ dữ liệu giữa các request.
 
 ## 6. Điều tra challenge
 
-- Challenge ID:
-- Triệu chứng từ metrics:
-- Trace ID liên quan:
-- Log line/correlation ID liên quan:
-- Root cause:
-- Fix action:
-- Preventive measure:
+- Challenge ID: `day13-k4-observability-v1`
+- Triệu chứng từ metrics: Latency p95 tăng vọt lên ~3.6s (3633ms), vượt quá ngưỡng 2s. Client latency lên tới ~18.3s với tải 5 request đồng thời.
+- Trace ID liên quan: `req-7dd39beb`
+- Log line/correlation ID liên quan: correlation_id `req-7dd39beb`, ghi nhận sự kiện `response_sent` với `latency_ms` = 3526.
+- Root cause: Bị ảnh hưởng bởi sự cố `rag_slow` làm hàm `retrieve()` bị chậm thêm 2.5s do `time.sleep()`. Nguyên nhân sâu xa là việc gọi trực tiếp hàm đồng bộ (synchronous) `agent.run` bên trong route `async def chat` của FastAPI làm block toàn bộ event loop, khiến cho các request đồng thời phải xếp hàng chờ đợi nhau.
+- Fix action: Thay đổi endpoint `chat` thành hàm `def` đồng bộ, hoặc bọc `agent.run` bằng `run_in_threadpool` để không block event loop. Xử lý triệt để hiệu năng của phần `retrieve()` (ví dụ: bổ sung cache, timeout).
+- Preventive measure: Đặt alert khi latency P95 > 2s. Thêm sub-component tracing trực tiếp vào các hàm `retrieve()` thay vì chỉ ở mức agent để dễ dàng phát hiện điểm thắt cổ chai trong tương lai.
 
 ## 7. Đóng góp cá nhân
 
